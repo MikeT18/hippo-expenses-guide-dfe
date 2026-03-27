@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hippo Digital - Expenses Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --hippo-dark: #1a2332;
+    --hippo-blue: #2b5ea7;
+    --hippo-light-blue: #e8f0fa;
+    --hippo-teal: #1a8a7d;
+    --hippo-green: #22c55e;
+    --hippo-amber: #f59e0b;
+    --hippo-red: #ef4444;
+    --hippo-grey: #64748b;
+    --hippo-light: #f8fafc;
+    --hippo-white: #ffffff;
+    --hippo-border: #e2e8f0;
+    --radius: 12px;
+    --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.04);
+    --shadow-lg: 0 4px 20px rgba(0,0,0,0.1), 0 8px 32px rgba(0,0,0,0.06);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', -apple-system, sans-serif;
+    background: var(--hippo-light);
+    color: var(--hippo-dark);
+    min-height: 100vh;
+    line-height: 1.5;
+  }
+
+  .header {
+    background: var(--hippo-dark);
+    color: white;
+    padding: 24px 32px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .header-logo {
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+  }
+
+  .header-logo span {
+    color: var(--hippo-blue);
+  }
+
+  .header-divider {
+    width: 1px;
+    height: 24px;
+    background: rgba(255,255,255,0.2);
+  }
+
+  .header-title {
+    font-size: 15px;
+    font-weight: 500;
+    opacity: 0.8;
+  }
+
+  .container {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 32px 24px 64px;
+  }
+
+  .intro {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+
+  .intro h1 {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    margin-bottom: 8px;
+  }
+
+  .intro p {
+    color: var(--hippo-grey);
+    font-size: 15px;
+  }
+
+  /* Progress bar */
+  .progress-bar {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 32px;
+  }
+
+  .progress-step {
+    flex: 1;
+    height: 4px;
+    background: var(--hippo-border);
+    border-radius: 2px;
+    transition: background 0.4s ease;
+  }
+
+  .progress-step.active {
+    background: var(--hippo-blue);
+  }
+
+  .progress-step.complete {
+    background: var(--hippo-teal);
+  }
+
+  /* Cards */
+  .step-card {
+    background: var(--hippo-white);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 32px;
+    animation: fadeSlideIn 0.35s ease;
+    border: 1px solid var(--hippo-border);
+  }
+
+  @keyframes fadeSlideIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .step-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--hippo-blue);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 8px;
+  }
+
+  .step-question {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    letter-spacing: -0.3px;
+  }
+
+  .step-hint {
+    font-size: 14px;
+    color: var(--hippo-grey);
+    margin-bottom: 24px;
+  }
+
+  /* Option buttons */
+  .options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .option-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 18px;
+    background: var(--hippo-light);
+    border: 1.5px solid var(--hippo-border);
+    border-radius: 10px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--hippo-dark);
+    transition: all 0.2s ease;
+    text-align: left;
+    width: 100%;
+  }
+
+  .option-btn:hover {
+    border-color: var(--hippo-blue);
+    background: var(--hippo-light-blue);
+    transform: translateX(4px);
+  }
+
+  .option-btn .icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+    background: var(--hippo-white);
+    border: 1px solid var(--hippo-border);
+  }
+
+  .option-btn:hover .icon {
+    background: var(--hippo-blue);
+    border-color: var(--hippo-blue);
+    color: white;
+  }
+
+  .option-text {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .option-text small {
+    font-size: 12px;
+    color: var(--hippo-grey);
+    font-weight: 400;
+  }
+
+  /* Result card */
+  .result-card {
+    background: var(--hippo-white);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+    animation: fadeSlideIn 0.35s ease;
+    border: 1px solid var(--hippo-border);
+  }
+
+  .result-header {
+    padding: 24px 32px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .result-header.allowed {
+    background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+    border-bottom: 1px solid #a7f3d0;
+  }
+
+  .result-header.not-allowed {
+    background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+    border-bottom: 1px solid #fecaca;
+  }
+
+  .result-header.conditional {
+    background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+    border-bottom: 1px solid #fde68a;
+  }
+
+  .result-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+
+  .result-header.allowed .result-icon { background: #22c55e; color: white; }
+  .result-header.not-allowed .result-icon { background: #ef4444; color: white; }
+  .result-header.conditional .result-icon { background: #f59e0b; color: white; }
+
+  .result-status {
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  .result-body {
+    padding: 28px 32px;
+  }
+
+  .result-section {
+    margin-bottom: 20px;
+  }
+
+  .result-section:last-child {
+    margin-bottom: 0;
+  }
+
+  .result-section-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--hippo-grey);
+    margin-bottom: 6px;
+  }
+
+  .result-section p {
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  .result-tag {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    margin-right: 6px;
+    margin-bottom: 4px;
+  }
+
+  .tag-billable { background: #dbeafe; color: #1d4ed8; }
+  .tag-non-billable { background: #f1f5f9; color: #475569; }
+  .tag-pre-approval { background: #fef3c7; color: #92400e; }
+  .tag-perk { background: #ede9fe; color: #6d28d9; }
+
+  .result-detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--hippo-border);
+    font-size: 14px;
+  }
+
+  .result-detail-row:last-child {
+    border-bottom: none;
+  }
+
+  .result-detail-row .label {
+    color: var(--hippo-grey);
+  }
+
+  .result-detail-row .value {
+    font-weight: 600;
+    text-align: right;
+  }
+
+  /* Buttons */
+  .btn-row {
+    display: flex;
+    gap: 10px;
+    margin-top: 24px;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+  }
+
+  .btn-primary {
+    background: var(--hippo-dark);
+    color: white;
+  }
+
+  .btn-primary:hover {
+    background: #2a3a4e;
+    transform: translateY(-1px);
+    box-shadow: var(--shadow);
+  }
+
+  .btn-secondary {
+    background: var(--hippo-light);
+    color: var(--hippo-dark);
+    border: 1.5px solid var(--hippo-border);
+  }
+
+  .btn-secondary:hover {
+    background: var(--hippo-white);
+    border-color: var(--hippo-blue);
+  }
+
+  .back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 16px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--hippo-grey);
+    padding: 4px 0;
+    transition: color 0.2s;
+  }
+
+  .back-btn:hover { color: var(--hippo-dark); }
+
+  /* Breadcrumb trail */
+  .breadcrumb {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 20px;
+    align-items: center;
+  }
+
+  .breadcrumb-item {
+    font-size: 13px;
+    color: var(--hippo-grey);
+    background: var(--hippo-white);
+    padding: 4px 10px;
+    border-radius: 6px;
+    border: 1px solid var(--hippo-border);
+  }
+
+  .breadcrumb-arrow {
+    color: var(--hippo-border);
+    font-size: 12px;
+  }
+
+  .footer-note {
+    text-align: center;
+    margin-top: 32px;
+    font-size: 13px;
+    color: var(--hippo-grey);
+    line-height: 1.6;
+  }
+
+  .footer-note a {
+    color: var(--hippo-blue);
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  @media (max-width: 600px) {
+    .container { padding: 20px 16px 48px; }
+    .step-card, .result-body { padding: 24px 20px; }
+    .result-header { padding: 20px; }
+    .intro h1 { font-size: 22px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-logo">hippo<span>digital</span></div>
+  <div class="header-divider"></div>
+  <div class="header-title">Expenses Guide</div>
+</div>
+
+<div class="container" id="app"></div>
+
+<script>
+const app = document.getElementById('app');
+
+// ── Decision tree data ──
+const EXPENSE_DATA = {
+  // DfE Ent Data (Standard) rules
+  dfeStandard: {
+    hotel: {
+      status: 'allowed',
+      statusText: 'Yes - claimable and billable to DfE',
+      tags: ['tag-billable', 'tag-pre-approval'],
+      tagLabels: ['Billable', 'Pre-approval required'],
+      details: [
+        { label: 'London rate (max)', value: '£135/night' },
+        { label: 'Outside London (max)', value: '£75/night' },
+        { label: 'Booking method', value: 'TravelPerk' },
+        { label: 'Approval needed from', value: 'Project Lead (before trip)' },
+      ],
+      notes: 'Pre-approve with your Project Lead before booking. Book via TravelPerk. Log in Kimble and tick "Company Paid" for TravelPerk bookings. For Queens Hotel (Leeds), request an invoice on checkout and attach to Kimble. If the room rate is above policy, approval is needed before booking.',
+    },
+    publicTransport: {
+      status: 'allowed',
+      statusText: 'Yes - claimable and billable to DfE',
+      tags: ['tag-billable'],
+      tagLabels: ['Billable'],
+      details: [
+        { label: 'Class', value: 'Economy only (cheapest route)' },
+        { label: 'Booking method', value: 'TravelPerk' },
+        { label: 'First class', value: 'Only if cheapest or reasonable adjustment' },
+      ],
+      notes: 'Book via TravelPerk using the cheapest available route, in advance where possible. DfE will not cover travel to/from your Primary Office Location. If your journey passes through your DfE primary office city, you must deduct that leg\'s cost. If it doesn\'t pass through, DfE covers the cheaper of your actual fare vs. the fare from your primary office — take screenshots of both journeys as evidence and note the calculation in Kimble.',
+    },
+    taxi: {
+      status: 'conditional',
+      statusText: 'Yes, but only as a last resort',
+      tags: ['tag-billable', 'tag-pre-approval'],
+      tagLabels: ['Billable', 'Pre-approval required'],
+      details: [
+        { label: 'Condition', value: 'No other suitable transport available' },
+        { label: 'Approval needed from', value: 'Project Lead' },
+      ],
+      notes: 'Taxis should only be used when public transport is unavailable or impractical. Pre-approval from your Project Lead is required. Reclaim via Kimble with a receipt.',
+    },
+    mileage: {
+      status: 'allowed',
+      statusText: 'Yes - claimable and billable to DfE',
+      tags: ['tag-billable'],
+      tagLabels: ['Billable'],
+      details: [
+        { label: 'Own car (first 10,000 miles)', value: '45p/mile' },
+        { label: 'Own car (over 10,000 miles)', value: '25p/mile' },
+        { label: 'Motorcycle (any mileage)', value: '24p/mile' },
+        { label: 'Bicycle (any mileage)', value: '20p/mile' },
+        { label: 'Important', value: 'Deduct miles to DfE primary office' },
+      ],
+      notes: 'Public transport should be used in the first instance. You must deduct the miles equivalent to your DfE primary office location from your claim. Confirm miles, start/end postcodes, and your calculation in Kimble. No receipt required for mileage.',
+    },
+    subsistence: {
+      status: 'allowed',
+      statusText: 'Yes - claimable and billable to DfE',
+      tags: ['tag-billable'],
+      tagLabels: ['Billable'],
+      details: [
+        { label: 'Over 5 hours (1 meal)', value: 'Up to £5' },
+        { label: 'Over 10 hours (2 meals)', value: 'Up to £10' },
+        { label: 'Over 12 hours (3 meals)', value: 'Up to £13.80' },
+        { label: 'Over 24 hours (breakfast included)', value: 'Up to £21.25' },
+        { label: 'Over 24 hours (no breakfast)', value: 'Up to £26.25' },
+        { label: 'Early start before 6am (overnight)', value: 'Extra £5 breakfast' },
+      ],
+      notes: 'Only applicable when away from your permanent place of work. Receipts required. Must comply with DfE Supplier Expenses Travel and Subsistence Guidance. For cold takeaway food, use "Subsistence (VAT Exempt)" in Kimble; restaurants and hot food are VATable.',
+    },
+    staffEntertainment: {
+      status: 'conditional',
+      statusText: 'Yes, but non-billable',
+      tags: ['tag-non-billable', 'tag-pre-approval'],
+      tagLabels: ['Non-Billable', 'Pre-approval required'],
+      details: [
+        { label: 'Approval needed from', value: 'Delivery Partner' },
+      ],
+      notes: 'This is claimable but cannot be billed to DfE. Follow the Hippo expenses policy for limits. Pre-approval required.',
+    },
+    clientEntertainment: {
+      status: 'conditional',
+      statusText: 'Yes, but non-billable',
+      tags: ['tag-non-billable', 'tag-pre-approval'],
+      tagLabels: ['Non-Billable', 'Pre-approval required'],
+      details: [
+        { label: 'Approval needed from', value: 'Client Partner' },
+        { label: 'Payment method', value: 'Company card (Pleo)' },
+      ],
+      notes: 'Claimable but not billable to DfE. Must comply with the Gifts, Entertainment and Donations Policy. Ensure reasonable and business-related.',
+    },
+  },
+  // DfE Ent Data Insights rules
+  dfeInsights: {
+    hotel: {
+      status: 'allowed',
+      statusText: 'Yes - claimable and billable to DfE',
+      tags: ['tag-billable', 'tag-pre-approval', 'tag-perk'],
+      tagLabels: ['Billable', 'Pre-approval required', 'Book via Perk'],
+      details: [
+        { label: 'London rate (max)', value: '£135/night' },
+        { label: 'Outside London (max)', value: '£75/night' },
+        { label: 'Booking method', value: 'Perk (ASAP after pre-approval)' },
+        { label: 'DfE approval via', value: 'DfE Expenses Teams channel' },
+      ],
+      notes: 'Pre-approve with your Project Lead, then get DfE approval via the DfE Expenses Teams channel — DfE will need to see booking costs and will confirm the total they can cover. Screenshot the approval, share with your PL, and attach it to Kimble. Book via Perk ASAP after approval to avoid costs changing. Tick "Company Paid" in Kimble. For Queens Hotel (Leeds), request an invoice on checkout.',
+    },
+    publicTransport: {
+      status: 'allowed',
+      statusText: 'Yes - claimable and billable to DfE',
+      tags: ['tag-billable', 'tag-pre-approval', 'tag-perk'],
+      tagLabels: ['Billable', 'Pre-approval required', 'Book via Perk'],
+      details: [
+        { label: 'Class', value: 'Economy only (cheapest route)' },
+        { label: 'Booking method', value: 'Perk (ASAP after pre-approval)' },
+        { label: 'DfE approval via', value: 'DfE Expenses Teams channel' },
+        { label: 'First class', value: 'Only if cheapest or reasonable adjustment' },
+      ],
+      notes: 'Get DfE approval via the DfE Expenses Teams channel before booking. Book via Perk ASAP after approval. DfE will not cover travel to/from your Primary Office Location. If only part of your journey is billable, log the DfE-approved amount under the "(Billable)" Kimble code and the non-billable remainder as a separate "(Non-billable)" line item (if approved). Attach the DfE approval screenshot using the attachment button at the top of the Kimble expense screen.',
+    },
+    taxi: {
+      status: 'conditional',
+      statusText: 'Yes, but only as a last resort',
+      tags: ['tag-billable', 'tag-pre-approval'],
+      tagLabels: ['Billable', 'Pre-approval required'],
+      details: [
+        { label: 'Condition', value: 'No other suitable transport available' },
+        { label: 'DfE approval via', value: 'DfE Expenses Teams channel' },
+      ],
+      notes: 'Taxis should only be used when public transport is unavailable or impractical. Get DfE approval via the Teams channel. Reclaim via Kimble with a receipt and attach the DfE approval screenshot.',
+    },
+    mileage: {
+      status: 'allowed',
+      statusText: 'Yes - claimable and billable to DfE',
+      tags: ['tag-billable'],
+      tagLabels: ['Billable'],
+      details: [
+        { label: 'Own car (first 10,000 miles)', value: '45p/mile' },
+        { label: 'Own car (over 10,000 miles)', value: '25p/mile' },
+        { label: 'Motorcycle (any mileage)', value: '24p/mile' },
+        { label: 'Bicycle (any mileage)', value: '20p/mile' },
+        { label: 'Important', value: 'Deduct miles to DfE primary office' },
+      ],
+      notes: 'Public transport should be used in the first instance. Get DfE approval via the DfE Expenses Teams channel. You must deduct the miles equivalent to your DfE primary office location. Confirm miles, start/end postcodes, and your calculation in Kimble. Attach the DfE approval screenshot. No receipt required for mileage.',
+    },
+    subsistence: {
+      status: 'allowed',
+      statusText: 'Yes - claimable and billable to DfE',
+      tags: ['tag-billable'],
+      tagLabels: ['Billable'],
+      details: [
+        { label: 'Over 5 hours (1 meal)', value: 'Up to £5' },
+        { label: 'Over 10 hours (2 meals)', value: 'Up to £10' },
+        { label: 'Over 12 hours (3 meals)', value: 'Up to £13.80' },
+        { label: 'Over 24 hours (breakfast included)', value: 'Up to £21.25' },
+        { label: 'Over 24 hours (no breakfast)', value: 'Up to £26.25' },
+        { label: 'Early start before 6am (overnight)', value: 'Extra £5 breakfast' },
+      ],
+      notes: 'Only applicable when away from your permanent place of work. Receipts required. Get DfE approval via the Teams channel. Must comply with DfE Supplier Expenses Travel and Subsistence Guidance. For cold takeaway food, use "Subsistence (VAT Exempt)" in Kimble; restaurants and hot food are VATable. Attach the DfE approval screenshot in Kimble.',
+    },
+    staffEntertainment: {
+      status: 'conditional',
+      statusText: 'Yes, but non-billable',
+      tags: ['tag-non-billable', 'tag-pre-approval'],
+      tagLabels: ['Non-Billable', 'Pre-approval required'],
+      details: [
+        { label: 'Approval needed from', value: 'Delivery Partner' },
+      ],
+      notes: 'This is claimable but cannot be billed to DfE. Follow the Hippo expenses policy for limits. Pre-approval required.',
+    },
+    clientEntertainment: {
+      status: 'conditional',
+      statusText: 'Yes, but non-billable',
+      tags: ['tag-non-billable', 'tag-pre-approval'],
+      tagLabels: ['Non-Billable', 'Pre-approval required'],
+      details: [
+        { label: 'Approval needed from', value: 'Client Partner' },
+        { label: 'Payment method', value: 'Company card (Pleo)' },
+      ],
+      notes: 'Claimable but not billable to DfE. Must comply with the Gifts, Entertainment and Donations Policy. Ensure reasonable and business-related.',
+    },
+  },
+  // Hippo internal / non-billable rules
+  hippo: {
+    hotel: {
+      status: 'allowed',
+      statusText: 'Yes - claimable via Hippo',
+      tags: ['tag-non-billable', 'tag-perk'],
+      tagLabels: ['Non-Billable', 'Book via Perk'],
+      details: [
+        { label: 'Inside M25 (max)', value: '£170/night' },
+        { label: 'Outside M25 (max)', value: '£100/night' },
+        { label: 'Leeds corporate rate', value: '£124 (Queens/Mal Maison)' },
+        { label: 'Booking method', value: 'Perk (1 week in advance)' },
+      ],
+      notes: 'Book via Perk, not out of pocket. Choose standard rooms and refundable options where possible. If out of policy, use Perk\'s "Outside Policy Approval" feature. Breakfast allowance is £10 if not included.',
+    },
+    publicTransport: {
+      status: 'allowed',
+      statusText: 'Yes - claimable via Hippo',
+      tags: ['tag-non-billable', 'tag-perk'],
+      tagLabels: ['Non-Billable', 'Book via Perk'],
+      details: [
+        { label: 'Class', value: 'Economy only' },
+        { label: 'Booking method', value: 'Perk' },
+        { label: 'Railcard', value: 'Claimable up to £35' },
+      ],
+      notes: 'Book as early as possible. Non-flexible tickets preferred. Use rail over domestic flights unless the journey exceeds 6 hours. You cannot claim travel to your work base.',
+    },
+    taxi: {
+      status: 'conditional',
+      statusText: 'Yes, but restricted',
+      tags: ['tag-non-billable'],
+      tagLabels: ['Non-Billable'],
+      details: [
+        { label: 'Booking method', value: 'Uber Business Account' },
+        { label: 'Condition', value: 'Last resort only' },
+        { label: 'Warning', value: 'Inappropriate use may be charged to you' },
+      ],
+      notes: 'Only when public transport is unavailable/impractical, or when cheaper than driving + parking. Cannot be used for commuting. If personally paid, reclaim via Kimble with receipt and reason.',
+    },
+    mileage: {
+      status: 'allowed',
+      statusText: 'Yes - claimable via Hippo',
+      tags: ['tag-non-billable'],
+      tagLabels: ['Non-Billable'],
+      details: [
+        { label: 'Own car (first 10k miles)', value: '45p/mile' },
+        { label: 'Own car (over 10k miles)', value: '25p/mile' },
+        { label: 'Company EV', value: '8p/mile' },
+        { label: 'Important', value: 'Deduct home-to-office commute' },
+      ],
+      notes: 'Only if public transport isn\'t practical. Include postcode breakdown. No petrol receipts needed. Subject to Driving Policy.',
+    },
+    subsistence: {
+      status: 'conditional',
+      statusText: 'Depends on the situation',
+      tags: ['tag-non-billable'],
+      tagLabels: ['Non-Billable'],
+      details: [
+        { label: 'Dinner (overnight stay)', value: 'Up to £25 inc. alcohol' },
+        { label: 'Breakfast (overnight/early start)', value: 'Up to £10' },
+        { label: 'Late return (after 9pm)', value: 'Up to £25 for dinner' },
+        { label: 'Lunch', value: 'Never claimable' },
+      ],
+      notes: 'Allowances cannot be combined (no skipping breakfast to claim £35 for dinner). Groups can pool allowances. One person can pay and claim for all, listing names in Kimble.',
+    },
+    staffEntertainment: {
+      status: 'conditional',
+      statusText: 'Yes, with pre-approval',
+      tags: ['tag-non-billable', 'tag-pre-approval'],
+      tagLabels: ['Non-Billable', 'Pre-approval required'],
+      details: [
+        { label: 'Approval needed from', value: 'Delivery Partner / Line Manager' },
+      ],
+      notes: 'Must be pre-approved. Use internal expense code in Kimble.',
+    },
+    clientEntertainment: {
+      status: 'allowed',
+      statusText: 'Yes - claimable via Hippo',
+      tags: ['tag-non-billable', 'tag-pre-approval'],
+      tagLabels: ['Non-Billable', 'Pre-approval required'],
+      details: [
+        { label: 'Includes', value: 'Meals, drinks, event tickets, small gifts' },
+        { label: 'Payment method', value: 'Company card (Pleo)' },
+      ],
+      notes: 'Must be reasonable and business-related. Comply with Gifts, Entertainment and Donations Policy.',
+    },
+    homeOffice: {
+      status: 'allowed',
+      statusText: 'Yes - up to £100 total',
+      tags: ['tag-non-billable'],
+      tagLabels: ['Non-Billable'],
+      details: [
+        { label: 'Limit', value: '£100 total (desk/chair)' },
+        { label: 'Kimble code', value: 'Internal (For Expenses)' },
+        { label: 'Note', value: 'Clawback if you leave within 60 days' },
+      ],
+      notes: 'For desk, office chair, or H&S equipment only. Peripheral items (monitors, keyboards etc.) should be requested via Tech Support through Halp.',
+    },
+    eyeTest: {
+      status: 'allowed',
+      statusText: 'Yes - claimable via Hippo',
+      tags: ['tag-non-billable'],
+      tagLabels: ['Non-Billable'],
+      details: [
+        { label: 'Eye test', value: 'Up to £35' },
+        { label: 'VDU glasses', value: 'Up to £100' },
+        { label: 'Requirement', value: 'Must include VDU usage evidence' },
+      ],
+      notes: 'Pay yourself and claim back. Glasses claim must include evidence of VDU usage.',
+    },
+    fluJab: {
+      status: 'allowed',
+      statusText: 'Yes - once annually',
+      tags: ['tag-non-billable'],
+      tagLabels: ['Non-Billable'],
+      details: [
+        { label: 'Limit', value: '£22' },
+        { label: 'Frequency', value: 'Once per year' },
+      ],
+      notes: '',
+    },
+  },
+  // Not claimable items
+  notClaimable: {
+    lunch: {
+      status: 'not-allowed',
+      statusText: 'Not claimable',
+      tags: [],
+      tagLabels: [],
+      details: [],
+      notes: 'Lunch is never reimbursable unless it\'s part of a pre-approved team day, training, or client workshop.',
+    },
+    commuteTravel: {
+      status: 'not-allowed',
+      statusText: 'Not claimable',
+      tags: [],
+      tagLabels: [],
+      details: [],
+      notes: 'Travel to/from your work base is never reimbursable. This includes any regular commute.',
+    },
+    internet: {
+      status: 'not-allowed',
+      statusText: 'Not claimable on DfE',
+      tags: [],
+      tagLabels: [],
+      details: [],
+      notes: 'Internet while travelling is not claimable on DfE contracts.',
+    },
+    hireBike: {
+      status: 'not-allowed',
+      statusText: 'Not permitted',
+      tags: [],
+      tagLabels: [],
+      details: [],
+      notes: 'Hire bikes, scooters, and motorbikes are not permitted for business travel.',
+    },
+  }
+};
+
+// ── State ──
+let state = {
+  step: 'start',
+  answers: [],
+  history: [],
+};
+
+function pushState(newStep, label) {
+  state.history.push({ step: state.step, answers: [...state.answers] });
+  state.answers.push(label);
+  state.step = newStep;
+  render();
+}
+
+function goBack() {
+  if (state.history.length === 0) return;
+  const prev = state.history.pop();
+  state.step = prev.step;
+  state.answers = prev.answers;
+  render();
+}
+
+function restart() {
+  state = { step: 'start', answers: [], history: [] };
+  render();
+}
+
+// Total steps varies by path
+function getProgress() {
+  return state.answers.length;
+}
+
+// DfE path has 4 steps (billable? → which team? → expense type → result)
+// Hippo path has 3 steps
+function getTotalSteps() {
+  if (state.answers.includes('Billable to DfE')) return 4;
+  return 3;
+}
+
+// ── Rendering ──
+function render() {
+  const progress = getProgress();
+  const totalSteps = getTotalSteps();
+  
+  let html = '';
+  
+  // Intro
+  html += `<div class="intro"><h1>Expenses Guide</h1><p>Answer a few questions to find out what you can claim and how.</p></div>`;
+  
+  // Progress
+  html += `<div class="progress-bar">`;
+  for (let i = 0; i < totalSteps; i++) {
+    const cls = i < progress ? 'complete' : i === progress ? 'active' : '';
+    html += `<div class="progress-step ${cls}"></div>`;
+  }
+  html += `</div>`;
+  
+  // Breadcrumbs
+  if (state.answers.length > 0) {
+    html += `<div class="breadcrumb">`;
+    state.answers.forEach((a, i) => {
+      if (i > 0) html += `<span class="breadcrumb-arrow">›</span>`;
+      html += `<span class="breadcrumb-item">${a}</span>`;
+    });
+    html += `</div>`;
+  }
+
+  // Step content
+  html += getStepContent();
+  
+  app.innerHTML = html;
+  
+  // Bind events
+  app.querySelectorAll('[data-action]').forEach(el => {
+    el.addEventListener('click', () => {
+      const action = el.dataset.action;
+      const label = el.dataset.label;
+      pushState(action, label);
+    });
+  });
+  
+  const backBtn = app.querySelector('[data-back]');
+  if (backBtn) backBtn.addEventListener('click', goBack);
+  
+  const restartBtn = app.querySelector('[data-restart]');
+  if (restartBtn) restartBtn.addEventListener('click', restart);
+}
+
+function getStepContent() {
+  switch(state.step) {
+    case 'start': return stepStart();
+    case 'dfe_team': return stepDfeTeam();
+    case 'dfe_standard_expense': return stepDfeStandardExpense();
+    case 'dfe_insights_expense': return stepDfeInsightsExpense();
+    case 'hippo_expense': return stepHippoExpense();
+    case 'not_sure_billable': return stepNotSureBillable();
+    default:
+      // Check if it's a result
+      if (state.step.startsWith('result:')) {
+        return renderResult(state.step.replace('result:', ''));
+      }
+      return '<p>Something went wrong. <button data-restart>Start again</button></p>';
+  }
+}
+
+function stepStart() {
+  return `
+    <div class="step-card">
+      <div class="step-label">Step 1 of 3</div>
+      <div class="step-question">Is this expense billable to a client?</div>
+      <div class="step-hint">If you're on a DfE contract, check with your Project Lead whether the expense can be billed to DfE.</div>
+      <div class="options">
+        <button class="option-btn" data-action="dfe_team" data-label="Billable to DfE">
+          <div class="icon">📋</div>
+          <div class="option-text">Yes, billable to DfE<small>DfE rates and rules apply</small></div>
+        </button>
+        <button class="option-btn" data-action="hippo_expense" data-label="Hippo (non-billable)">
+          <div class="icon">🦛</div>
+          <div class="option-text">No, it's a Hippo expense<small>Hippo policy rates and rules apply</small></div>
+        </button>
+        <button class="option-btn" data-action="not_sure_billable" data-label="Not sure">
+          <div class="icon">❓</div>
+          <div class="option-text">I'm not sure<small>Help me figure it out</small></div>
+        </button>
+      </div>
+    </div>
+  `;
+}
+
+function stepNotSureBillable() {
+  return `
+    <div class="step-card">
+      <button class="back-btn" data-back>← Back</button>
+      <div class="step-label">Quick check</div>
+      <div class="step-question">Check with your Project Lead</div>
+      <div class="step-hint">Your PL will confirm whether the expense is billable to the client or should go through as a Hippo internal expense. This affects which rates and rules apply.</div>
+      <div style="background: var(--hippo-light-blue); padding: 16px; border-radius: 10px; margin-bottom: 20px; font-size: 14px; line-height: 1.6;">
+        <strong>Key rule:</strong> All project expenses must be pre-approved by your Project Lead before they are incurred. If billable, DfE rates apply. If non-billable, Hippo policy applies.
+      </div>
+      <div class="step-question" style="font-size: 16px; margin-bottom: 16px;">Once you know, select below:</div>
+      <div class="options">
+        <button class="option-btn" data-action="dfe_team" data-label="Billable to DfE">
+          <div class="icon">📋</div>
+          <div class="option-text">It's billable to DfE</div>
+        </button>
+        <button class="option-btn" data-action="hippo_expense" data-label="Hippo (non-billable)">
+          <div class="icon">🦛</div>
+          <div class="option-text">It's a Hippo expense</div>
+        </button>
+      </div>
+    </div>
+  `;
+}
+
+function stepDfeTeam() {
+  return `
+    <div class="step-card">
+      <button class="back-btn" data-back>← Back</button>
+      <div class="step-label">Step 2 of 4</div>
+      <div class="step-question">Which area of Ent Data do you work in?</div>
+      <div class="step-hint">Different teams have different approval processes and booking platforms. If you're unsure, check with your Project Lead.</div>
+      <div class="options">
+        <button class="option-btn" data-action="dfe_standard_expense" data-label="Ent Data (Standard)">
+          <div class="icon">📊</div>
+          <div class="option-text">Ent Data (Standard)<small>Books travel via TravelPerk</small></div>
+        </button>
+        <button class="option-btn" data-action="dfe_insights_expense" data-label="Ent Data Insights">
+          <div class="icon">💡</div>
+          <div class="option-text">Ent Data Insights<small>Books travel via Perk, DfE approval via Teams channel</small></div>
+        </button>
+      </div>
+    </div>
+  `;
+}
+
+function stepDfeStandardExpense() {
+  return `
+    <div class="step-card">
+      <button class="back-btn" data-back>← Back</button>
+      <div class="step-label">Step 3 of 4</div>
+      <div class="step-question">What type of expense is it?</div>
+      <div class="step-hint">DfE rates and approval rules apply. Book travel via TravelPerk.</div>
+      <div class="options">
+        <button class="option-btn" data-action="result:dfeStandard.hotel" data-label="Hotel">
+          <div class="icon">🏨</div>
+          <div class="option-text">Hotel / Accommodation</div>
+        </button>
+        <button class="option-btn" data-action="result:dfeStandard.publicTransport" data-label="Public transport">
+          <div class="icon">🚂</div>
+          <div class="option-text">Train / Public Transport</div>
+        </button>
+        <button class="option-btn" data-action="result:dfeStandard.taxi" data-label="Taxi">
+          <div class="icon">🚕</div>
+          <div class="option-text">Taxi</div>
+        </button>
+        <button class="option-btn" data-action="result:dfeStandard.mileage" data-label="Mileage">
+          <div class="icon">🚗</div>
+          <div class="option-text">Mileage (own car / motorcycle / bicycle)</div>
+        </button>
+        <button class="option-btn" data-action="result:dfeStandard.subsistence" data-label="Food / Subsistence">
+          <div class="icon">🍽️</div>
+          <div class="option-text">Food / Subsistence</div>
+        </button>
+        <button class="option-btn" data-action="result:dfeStandard.staffEntertainment" data-label="Staff entertainment">
+          <div class="icon">🎉</div>
+          <div class="option-text">Staff Entertainment</div>
+        </button>
+        <button class="option-btn" data-action="result:dfeStandard.clientEntertainment" data-label="Client entertainment">
+          <div class="icon">🤝</div>
+          <div class="option-text">Client Entertainment</div>
+        </button>
+        <button class="option-btn" data-action="result:notClaimable.lunch" data-label="Lunch">
+          <div class="icon">🥪</div>
+          <div class="option-text">Lunch<small>Spoiler: not claimable</small></div>
+        </button>
+        <button class="option-btn" data-action="result:notClaimable.commuteTravel" data-label="Commute">
+          <div class="icon">🏠</div>
+          <div class="option-text">Travel to/from work base<small>Spoiler: not claimable</small></div>
+        </button>
+      </div>
+    </div>
+  `;
+}
+
+function stepDfeInsightsExpense() {
+  return `
+    <div class="step-card">
+      <button class="back-btn" data-back>← Back</button>
+      <div class="step-label">Step 3 of 4</div>
+      <div class="step-question">What type of expense is it?</div>
+      <div class="step-hint">DfE rates apply. Get DfE approval via the Teams channel before booking. Book travel via Perk ASAP after approval.</div>
+      <div class="options">
+        <button class="option-btn" data-action="result:dfeInsights.hotel" data-label="Hotel">
+          <div class="icon">🏨</div>
+          <div class="option-text">Hotel / Accommodation</div>
+        </button>
+        <button class="option-btn" data-action="result:dfeInsights.publicTransport" data-label="Public transport">
+          <div class="icon">🚂</div>
+          <div class="option-text">Train / Public Transport</div>
+        </button>
+        <button class="option-btn" data-action="result:dfeInsights.taxi" data-label="Taxi">
+          <div class="icon">🚕</div>
+          <div class="option-text">Taxi</div>
+        </button>
+        <button class="option-btn" data-action="result:dfeInsights.mileage" data-label="Mileage">
+          <div class="icon">🚗</div>
+          <div class="option-text">Mileage (own car / motorcycle / bicycle)</div>
+        </button>
+        <button class="option-btn" data-action="result:dfeInsights.subsistence" data-label="Food / Subsistence">
+          <div class="icon">🍽️</div>
+          <div class="option-text">Food / Subsistence</div>
+        </button>
+        <button class="option-btn" data-action="result:dfeInsights.staffEntertainment" data-label="Staff entertainment">
+          <div class="icon">🎉</div>
+          <div class="option-text">Staff Entertainment</div>
+        </button>
+        <button class="option-btn" data-action="result:dfeInsights.clientEntertainment" data-label="Client entertainment">
+          <div class="icon">🤝</div>
+          <div class="option-text">Client Entertainment</div>
+        </button>
+        <button class="option-btn" data-action="result:notClaimable.lunch" data-label="Lunch">
+          <div class="icon">🥪</div>
+          <div class="option-text">Lunch<small>Spoiler: not claimable</small></div>
+        </button>
+        <button class="option-btn" data-action="result:notClaimable.commuteTravel" data-label="Commute">
+          <div class="icon">🏠</div>
+          <div class="option-text">Travel to/from work base<small>Spoiler: not claimable</small></div>
+        </button>
+      </div>
+    </div>
+  `;
+}
+
+function stepHippoExpense() {
+  return `
+    <div class="step-card">
+      <button class="back-btn" data-back>← Back</button>
+      <div class="step-label">Step 2 of 3</div>
+      <div class="step-question">What type of expense is it?</div>
+      <div class="step-hint">Hippo policy rates apply. Select the closest category.</div>
+      <div class="options">
+        <button class="option-btn" data-action="result:hippo.hotel" data-label="Hotel">
+          <div class="icon">🏨</div>
+          <div class="option-text">Hotel / Accommodation</div>
+        </button>
+        <button class="option-btn" data-action="result:hippo.publicTransport" data-label="Public transport">
+          <div class="icon">🚂</div>
+          <div class="option-text">Train / Public Transport</div>
+        </button>
+        <button class="option-btn" data-action="result:hippo.taxi" data-label="Taxi">
+          <div class="icon">🚕</div>
+          <div class="option-text">Taxi</div>
+        </button>
+        <button class="option-btn" data-action="result:hippo.mileage" data-label="Mileage">
+          <div class="icon">🚗</div>
+          <div class="option-text">Mileage (own car / company EV)</div>
+        </button>
+        <button class="option-btn" data-action="result:hippo.subsistence" data-label="Food / Subsistence">
+          <div class="icon">🍽️</div>
+          <div class="option-text">Food / Subsistence</div>
+        </button>
+        <button class="option-btn" data-action="result:hippo.staffEntertainment" data-label="Staff entertainment">
+          <div class="icon">🎉</div>
+          <div class="option-text">Staff Entertainment</div>
+        </button>
+        <button class="option-btn" data-action="result:hippo.clientEntertainment" data-label="Client entertainment">
+          <div class="icon">🤝</div>
+          <div class="option-text">Client Entertainment</div>
+        </button>
+        <button class="option-btn" data-action="result:hippo.homeOffice" data-label="Home office equipment">
+          <div class="icon">🖥️</div>
+          <div class="option-text">Home Office Equipment<small>Desk, chair, H&S items</small></div>
+        </button>
+        <button class="option-btn" data-action="result:hippo.eyeTest" data-label="Eye test / glasses">
+          <div class="icon">👓</div>
+          <div class="option-text">Eye Test / VDU Glasses</div>
+        </button>
+        <button class="option-btn" data-action="result:hippo.fluJab" data-label="Flu jab">
+          <div class="icon">💉</div>
+          <div class="option-text">Flu Jab</div>
+        </button>
+        <button class="option-btn" data-action="result:notClaimable.lunch" data-label="Lunch">
+          <div class="icon">🥪</div>
+          <div class="option-text">Lunch<small>Spoiler: not claimable</small></div>
+        </button>
+        <button class="option-btn" data-action="result:notClaimable.commuteTravel" data-label="Commute">
+          <div class="icon">🏠</div>
+          <div class="option-text">Travel to/from work base<small>Spoiler: not claimable</small></div>
+        </button>
+        <button class="option-btn" data-action="result:notClaimable.hireBike" data-label="Bike/scooter hire">
+          <div class="icon">🚲</div>
+          <div class="option-text">Hire Bike / Scooter<small>Not permitted</small></div>
+        </button>
+      </div>
+    </div>
+  `;
+}
+
+function renderResult(path) {
+  const [category, type] = path.split('.');
+  const data = EXPENSE_DATA[category]?.[type];
+  
+  if (!data) {
+    return '<p>Category not found. <button data-restart>Start again</button></p>';
+  }
+
+  let tagsHtml = data.tags.map((cls, i) => `<span class="result-tag ${cls}">${data.tagLabels[i]}</span>`).join('');
+  
+  let detailsHtml = '';
+  if (data.details.length > 0) {
+    detailsHtml = `<div class="result-section"><div class="result-section-title">Key details</div>`;
+    data.details.forEach(d => {
+      detailsHtml += `<div class="result-detail-row"><span class="label">${d.label}</span><span class="value">${d.value}</span></div>`;
+    });
+    detailsHtml += `</div>`;
+  }
+
+  let notesHtml = '';
+  if (data.notes) {
+    notesHtml = `<div class="result-section"><div class="result-section-title">How to claim</div><p>${data.notes}</p></div>`;
+  }
+
+  const statusIcon = data.status === 'allowed' ? '✓' : data.status === 'not-allowed' ? '✗' : '⚠';
+
+  return `
+    <button class="back-btn" data-back>← Back</button>
+    <div class="result-card">
+      <div class="result-header ${data.status === 'allowed' ? 'allowed' : data.status === 'not-allowed' ? 'not-allowed' : 'conditional'}">
+        <div class="result-icon">${statusIcon}</div>
+        <div class="result-status">${data.statusText}</div>
+      </div>
+      <div class="result-body">
+        ${tagsHtml ? `<div class="result-section" style="margin-bottom:16px">${tagsHtml}</div>` : ''}
+        ${detailsHtml}
+        ${notesHtml}
+        <div class="result-section">
+          <div class="result-section-title">Remember</div>
+          <p style="font-size:14px; color: var(--hippo-grey);">Submit within 30 days. Always use the correct project code in Kimble. If in doubt, check with your Project Lead or Finance via <strong>#financesupport</strong> on Slack.</p>
+        </div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-primary" data-restart>↺ Check another expense</button>
+    </div>
+    <div class="footer-note">
+      Still not sure? Ask your Project Lead or Finance via #financesupport on Slack.
+    </div>
+  `;
+}
+
+// Initial render
+render();
+</script>
+</body>
+</html>
